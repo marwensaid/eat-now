@@ -25,6 +25,10 @@ public class CommandeService {
     }
 
     public Commande creerCommande(Map<UUID, Integer> items) {
+        if (items == null || items.isEmpty()) {
+            throw new IllegalArgumentException("La liste d'items ne peut pas être vide.");
+        }
+
         List<Plat> platsCommandes = new ArrayList<>();
         BigDecimal prixTotal = BigDecimal.ZERO;
 

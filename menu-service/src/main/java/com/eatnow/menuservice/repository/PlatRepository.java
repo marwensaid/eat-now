@@ -18,9 +18,9 @@ public class PlatRepository {
      */
     @PostConstruct
     private void init() {
-        Plat plat1 = new Plat(UUID.randomUUID(), "Pizza Margherita", "Pizza classique avec tomate, mozzarella et basilic", new BigDecimal("12.50"));
-        Plat plat2 = new Plat(UUID.randomUUID(), "Burger Classique", "Burger avec boeuf, salade, tomate, oignons", new BigDecimal("15.00"));
-        Plat plat3 = new Plat(UUID.randomUUID(), "Salade César", "Salade romaine, poulet grillé, croûtons et parmesan", new BigDecimal("11.00"));
+        Plat plat1 = new Plat(UUID.randomUUID(), "Pizza", "Pizza classique avec tomate, mozzarella et basilic", new BigDecimal("12.50"));
+        Plat plat2 = new Plat(UUID.randomUUID(), "Burger double cheese", "Burger avec boeuf, salade, tomate, oignons", new BigDecimal("15.00"));
+        Plat plat3 = new Plat(UUID.randomUUID(), "Salade", "Salade romaine, poulet grillé, croûtons et parmesan", new BigDecimal("11.00"));
 
         plats.put(plat1.id(), plat1);
         plats.put(plat2.id(), plat2);

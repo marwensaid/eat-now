@@ -5,6 +5,7 @@ import com.eatnow.orderservice.model.StatutCommande;
 import com.eatnow.orderservice.service.CommandeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +26,7 @@ public class CommandeController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Créer une nouvelle commande")
-    public Commande createCommande(@RequestBody CreationCommandeRequest request) {
+    public Commande createCommande(@Valid @RequestBody CreationCommandeRequest request) {
         return commandeService.creerCommande(request.items());
     }
 

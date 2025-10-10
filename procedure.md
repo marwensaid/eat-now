@@ -48,6 +48,7 @@ mvn spring-boot:run -pl order-service
 *   **API (GET all)**: [http://localhost:8082/commandes](http://localhost:8082/commandes)
 *   **Documentation Swagger UI**: [http://localhost:8082/swagger-ui.html](http://localhost:8082/swagger-ui.html)
 
+
 ### Lancer `delivery-service`
 
 ```bash
@@ -57,5 +58,26 @@ mvn spring-boot:run -pl delivery-service
 
 *   **API**: Les endpoints sont accessibles via `http://localhost:8083/livraisons`
 *   **Documentation Swagger UI**: [http://localhost:8083/swagger-ui.html](http://localhost:8083/swagger-ui.html)
+
+---
+
+## 4. Conteneurisation des microservices
+
+Cette étape consiste à créer une image Docker pour chaque microservice. Les commandes suivantes doivent être exécutées depuis la **racine du projet**.
+
+```bash
+# Créer l'image pour menu-service
+docker build -t eatnow/menu-service:latest -f menu-service/Dockerfile .
+
+# Créer l'image pour order-service
+docker build -t eatnow/order-service:latest -f order-service/Dockerfile .
+
+# Créer l'image pour delivery-service
+docker build -t eatnow/delivery-service:latest -f delivery-service/Dockerfile .
+```
+
+*   `-t eatnow/menu-service:latest` : Nomme (`tag`) l'image pour une identification facile.
+*   `-f menu-service/Dockerfile` : Spécifie l'emplacement du Dockerfile à utiliser.
+*   `.` : Indique que le contexte de build est le répertoire courant (la racine du projet), ce qui est crucial pour que les commandes `COPY` dans les Dockerfiles fonctionnent.
 
 ---
