@@ -3,6 +3,9 @@
 Sujet : Application de restauration « EatNow »
 Technos : Java 17 – Spring Boot 3 – Kubernetes – Grafana – Prometheus
 
+Manal
+Mehdi
+
 ⸻
 
 🎯 Objectif général
