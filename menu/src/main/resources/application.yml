@@ -2,7 +2,7 @@ server:
   port: 9000
 spring:
   application:
-    name: menu-service
+    name: menu
 management:
   health:
     probes:

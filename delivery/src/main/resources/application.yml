@@ -2,7 +2,7 @@ server:
   port: 9002
 spring:
   application:
-    name: delivery-service
+    name: delivery
 management:
   health:
     probes:
