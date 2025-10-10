@@ -24,8 +24,3 @@ mvn validate
 mvn clean install
 ```
 
-## Étape 3 : Configuration du microservice `order-service`
-
-Le deuxième microservice, `order-service`, est maintenant configuré. Sa structure est similaire à `menu-service`, mais elle inclut en plus la dépendance `spring-cloud-starter-circuitbreaker-resilience4j`. Cette dépendance est essentielle pour implémenter des mécanismes de résilience (Circuit Breaker, Retry, Timeout) lors des appels aux autres services.
-
-La commande `mvn clean install` permet de compiler ce nouveau module avec le reste du projet.
