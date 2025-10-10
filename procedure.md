@@ -13,7 +13,7 @@ mvn validate
 
 ---
 
-## 2. Compilation de tous les microservices
+## 2. Compilation de tous les microservices Option : deploy.sh
 
 Cette commande compile l'ensemble des microservices (`menu-service`, `order-service`, `delivery-service`), exécute les tests et installe les artefacts JAR dans votre dépôt Maven local.
 
@@ -67,13 +67,13 @@ Cette étape consiste à créer une image Docker pour chaque microservice. Les c
 
 ```bash
 # Créer l'image pour menu-service
-docker build -t "eatnow/menu-service:v10" -f menu-service/Dockerfile .
+docker build -t "eatnow/menu-service:v11" -f menu-service/Dockerfile .
 
 # Créer l'image pour order-service
-docker build -t "eatnow/order-service:v10" -f order-service/Dockerfile .
+docker build -t "eatnow/order-service:v11" -f order-service/Dockerfile .
 
 # Créer l'image pour delivery-service
-docker build -t "eatnow/delivery-service:v10" -f delivery-service/Dockerfile .
+docker build -t "eatnow/delivery-service:v11" -f delivery-service/Dockerfile .
 ```
 
 *   `-t eatnow/menu-service:latest` : Nomme (`tag`) l'image pour une identification facile.
@@ -90,9 +90,9 @@ Avant de pouvoir déployer les services, vous devez rendre les images Docker loc
 
 ```bash
 # Charger chaque image dans le cluster
-minikube image load eatnow/menu-service:v10
-minikube image load eatnow/order-service:v10
-minikube image load eatnow/delivery-service:v10
+minikube image load eatnow/menu-service:v11
+minikube image load eatnow/order-service:v11
+minikube image load eatnow/delivery-service:v11
 ```
 
 ### b. Déployer `menu-service`
