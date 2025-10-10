@@ -67,13 +67,13 @@ Cette étape consiste à créer une image Docker pour chaque microservice. Les c
 
 ```bash
 # Créer l'image pour menu-service
-docker build -t eatnow/menu-service:latest -f menu-service/Dockerfile .
+docker build -t "eatnow/menu-service:v4" -f menu-service/Dockerfile .
 
 # Créer l'image pour order-service
-docker build -t eatnow/order-service:latest -f order-service/Dockerfile .
+docker build -t "eatnow/order-service:v4" -f order-service/Dockerfile .
 
 # Créer l'image pour delivery-service
-docker build -t eatnow/delivery-service:latest -f delivery-service/Dockerfile .
+docker build -t "eatnow/delivery-service:v4" -f delivery-service/Dockerfile .
 ```
 
 *   `-t eatnow/menu-service:latest` : Nomme (`tag`) l'image pour une identification facile.
@@ -82,7 +82,7 @@ docker build -t eatnow/delivery-service:latest -f delivery-service/Dockerfile .
 
 ---
 
-## 5. Déploiement sur Kubernetes
+## 5. Déploiement sur Kubernetes (option : deploy.sh)
 
 ### a. Chargement des images dans le cluster (pour Minikube)
 
@@ -90,9 +90,9 @@ Avant de pouvoir déployer les services, vous devez rendre les images Docker loc
 
 ```bash
 # Charger chaque image dans le cluster
-minikube image load eatnow/menu-service:latest
-minikube image load eatnow/order-service:latest
-minikube image load eatnow/delivery-service:latest
+minikube image load eatnow/menu-service:v4
+minikube image load eatnow/order-service:v4
+minikube image load eatnow/delivery-service:v4
 ```
 
 ### b. Déployer `menu-service`

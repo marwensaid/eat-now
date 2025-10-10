@@ -29,7 +29,7 @@ spec:
     spec:
       containers:
         - name: menu-service
-          image: eatnow/menu-service:latest
+          image: eatnow/menu-service:v9
           imagePullPolicy: IfNotPresent # Utilise l'image locale si elle existe
           ports:
             - containerPort: 8081

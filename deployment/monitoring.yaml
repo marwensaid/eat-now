@@ -4,7 +4,7 @@ metadata:
   name: eatnow-app-monitor
   labels:
     # Ce label est important pour que le Prometheus Operator trouve ce ServiceMonitor
-    release: monitoring
+    release: prometheus
 spec:
   selector:
     matchLabels:

@@ -69,4 +69,10 @@ public class PlatController {
         platRepository.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/error")
+    @Operation(summary = "Endpoint de test pour générer une erreur 500")
+    public void createError() {
+        throw new RuntimeException("Erreur de test pour Prometheus");
+    }
 }
