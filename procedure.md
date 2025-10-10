@@ -33,7 +33,17 @@ mvn clean install
 mvn spring-boot:run -pl menu-service
 ```
 
-Une fois le service démarré, vous pouvez y accéder via les URLs suivantes :
-
 *   **API (GET all)**: [http://localhost:8081/plats](http://localhost:8081/plats)
 *   **Documentation Swagger UI**: [http://localhost:8081/swagger-ui.html](http://localhost:8081/swagger-ui.html)
+
+### Lancer `order-service`
+
+**Attention :** `menu-service` doit être démarré avant de lancer `order-service`.
+
+```bash
+# Dans un nouveau terminal, à la racine du projet
+mvn spring-boot:run -pl order-service
+```
+
+*   **API (GET all)**: [http://localhost:8082/commandes](http://localhost:8082/commandes)
+*   **Documentation Swagger UI**: [http://localhost:8082/swagger-ui.html](http://localhost:8082/swagger-ui.html)
