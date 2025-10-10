@@ -81,3 +81,35 @@ docker build -t eatnow/delivery-service:latest -f delivery-service/Dockerfile .
 *   `.` : Indique que le contexte de build est le répertoire courant (la racine du projet), ce qui est crucial pour que les commandes `COPY` dans les Dockerfiles fonctionnent.
 
 ---
+
+## 5. Déploiement sur Kubernetes
+
+### a. Chargement des images dans le cluster (pour Minikube)
+
+Avant de pouvoir déployer les services, vous devez rendre les images Docker locales accessibles à votre cluster Kubernetes. Si vous utilisez Minikube, la commande suivante charge les images dans le démon Docker de Minikube.
+
+```bash
+# Charger chaque image dans le cluster
+minikube image load eatnow/menu-service:latest
+minikube image load eatnow/order-service:latest
+minikube image load eatnow/delivery-service:latest
+```
+
+### b. Déployer `menu-service`
+
+```bash
+# Appliquer le manifeste de déploiement et de service
+kubectl apply -f deployment/menu-service-deployment.yaml
+```
+
+#### Vérification
+
+```bash
+# Vérifier que le pod est en cours d'exécution (peut prendre quelques instants)
+kubectl get pods -l app=menu-service
+
+# Vérifier que le service est créé
+kubectl get service menu-service
+```
+
+---

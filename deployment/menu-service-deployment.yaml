@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: menu-service
+spec:
+  selector:
+    app: menu-service
+  ports:
+    - protocol: TCP
+      port: 8081
+      targetPort: 8081
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: menu-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: menu-service
+  template:
+    metadata:
+      labels:
+        app: menu-service
+    spec:
+      containers:
+        - name: menu-service
+          image: eatnow/menu-service:latest
+          imagePullPolicy: IfNotPresent # Utilise l'image locale si elle existe
+          ports:
+            - containerPort: 8081
+          # Sondes de santé pour que Kubernetes gère bien le pod
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8081
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8081
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          # Ressources pour la stabilité et le scaling
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
