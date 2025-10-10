@@ -1,34 +1,39 @@
-# Stage 1: Build
-FROM eclipse-temurin:17-jdk-alpine AS build
+# Étape 1: Build de l'application
+FROM maven:3.9-eclipse-temurin-17 AS build
+
 WORKDIR /app
 
-# Copier les fichiers Maven
-COPY mvnw .
-COPY .mvn .mvn
+# Copier le pom.xml et télécharger les dépendances
 COPY pom.xml .
+RUN mvn dependency:go-offline -B
 
-# Télécharger les dépendances
-RUN ./mvnw dependency:go-offline -B
+# Copier le code source et compiler
+COPY src ./src
+RUN mvn clean package -DskipTests
 
-# Copier le code source
-COPY src src
+# Étape 2: Image finale
+FROM eclipse-temurin:17-jre
 
-# Construire l'application
-RUN ./mvnw clean package -DskipTests
-
-# Stage 2: Runtime
-FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
 
-# Copier le JAR depuis le stage de build
+# Copier le JAR depuis l'étape de build
 COPY --from=build /app/target/*.jar app.jar
+
+# Créer un utilisateur non-root pour la sécurité
+RUN groupadd -r spring && useradd -r -g spring spring
+RUN chown -R spring:spring /app
+USER spring:spring
 
 # Exposer le port
 EXPOSE 8083
 
-# Variables d'environnement par défaut
+# Variables d'environnement
 ENV ORDER_SERVICE_URL=http://order-service:8082
 ENV JAVA_OPTS=""
 
-# Point d'entrée
-ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=40s --retries=3 \
+  CMD wget --no-verbose --tries=1 --spider http://localhost:8083/actuator/health || exit 1
+
+# Lancer l'application
+ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar /app/app.jar"]

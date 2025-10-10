@@ -12,7 +12,7 @@ COPY src ./src
 RUN mvn clean package -DskipTests
 
 # Étape 2: Image finale
-FROM eclipse-temurin:17-jre-alpine
+FROM eclipse-temurin:17-jre
 
 WORKDIR /app
 
@@ -20,15 +20,19 @@ WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
 
 # Créer un utilisateur non-root pour la sécurité
-RUN addgroup -S spring && adduser -S spring -G spring
+RUN groupadd -r spring && useradd -r -g spring spring
+RUN chown -R spring:spring /app
 USER spring:spring
 
 # Exposer le port
 EXPOSE 8081
+
+# Variables d'environnement
+ENV JAVA_OPTS=""
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=40s --retries=3 \
   CMD wget --no-verbose --tries=1 --spider http://localhost:8081/actuator/health || exit 1
 
 # Lancer l'application
-ENTRYPOINT ["java", "-jar", "/app/app.jar"]
+ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar /app/app.jar"]

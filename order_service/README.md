@@ -181,15 +181,15 @@ CREATED → CONFIRMED → PREPARING → READY → IN_DELIVERY → DELIVERED
 
 ### Statuts disponibles
 
-| Statut | Description |
-|--------|-------------|
-| `CREATED` | Commande créée (statut initial) |
-| `CONFIRMED` | Commande confirmée par le restaurant |
-| `PREPARING` | Commande en préparation |
-| `READY` | Commande prête pour livraison |
-| `IN_DELIVERY` | Commande en cours de livraison |
-| `DELIVERED` | Commande livrée (statut final) |
-| `CANCELLED` | Commande annulée |
+| Statut        | Description                          |
+| ------------- | ------------------------------------ |
+| `CREATED`     | Commande créée (statut initial)      |
+| `CONFIRMED`   | Commande confirmée par le restaurant |
+| `PREPARING`   | Commande en préparation              |
+| `READY`       | Commande prête pour livraison        |
+| `IN_DELIVERY` | Commande en cours de livraison       |
+| `DELIVERED`   | Commande livrée (statut final)       |
+| `CANCELLED`   | Commande annulée                     |
 
 ### Exemples de transitions
 
@@ -236,6 +236,7 @@ Tous les appels vers le `menu_service` sont protégés par :
 - **Time Limiter** : timeout de 5 secondes
 
 **Fallback** : En cas d'échec, une réponse par défaut est retournée avec :
+
 - Prix : 0.0
 - Nom : "Plat indisponible"
 - Disponibilité : false
@@ -307,29 +308,29 @@ order_service/
 
 #### Order (Commande)
 
-| Champ | Type | Description |
-|-------|------|-------------|
-| id | Long | Identifiant unique |
-| userId | String | Identifiant de l'utilisateur |
-| items | List<OrderItem> | Liste des plats commandés |
-| totalAmount | Double | Montant total (calculé) |
-| status | OrderStatus | Statut de la commande |
-| deliveryAddress | String | Adresse de livraison |
-| customerName | String | Nom du client |
-| customerPhone | String | Téléphone du client |
-| notes | String | Notes optionnelles |
-| createdAt | LocalDateTime | Date de création |
-| updatedAt | LocalDateTime | Date de dernière mise à jour |
+| Champ           | Type            | Description                  |
+| --------------- | --------------- | ---------------------------- |
+| id              | Long            | Identifiant unique           |
+| userId          | String          | Identifiant de l'utilisateur |
+| items           | List<OrderItem> | Liste des plats commandés    |
+| totalAmount     | Double          | Montant total (calculé)      |
+| status          | OrderStatus     | Statut de la commande        |
+| deliveryAddress | String          | Adresse de livraison         |
+| customerName    | String          | Nom du client                |
+| customerPhone   | String          | Téléphone du client          |
+| notes           | String          | Notes optionnelles           |
+| createdAt       | LocalDateTime   | Date de création             |
+| updatedAt       | LocalDateTime   | Date de dernière mise à jour |
 
 #### OrderItem (Item de commande)
 
-| Champ | Type | Description |
-|-------|------|-------------|
-| dishId | Long | ID du plat (référence vers menu_service) |
-| dishName | String | Nom du plat (récupéré depuis menu_service) |
-| dishPrice | Double | Prix unitaire (récupéré depuis menu_service) |
-| quantity | Integer | Quantité commandée |
-| totalPrice | Double | Prix total (dishPrice × quantity) |
+| Champ      | Type    | Description                                  |
+| ---------- | ------- | -------------------------------------------- |
+| dishId     | Long    | ID du plat (référence vers menu_service)     |
+| dishName   | String  | Nom du plat (récupéré depuis menu_service)   |
+| dishPrice  | Double  | Prix unitaire (récupéré depuis menu_service) |
+| quantity   | Integer | Quantité commandée                           |
+| totalPrice | Double  | Prix total (dishPrice × quantity)            |
 
 ## 🧪 Tests
 
