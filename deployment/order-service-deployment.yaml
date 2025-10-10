@@ -29,7 +29,7 @@ spec:
     spec:
       containers:
         - name: order-service
-          image: eatnow/order-service:v9
+          image: eatnow/order-service:v10
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8082
