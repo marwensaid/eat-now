@@ -1,0 +1,47 @@
+---
+# ConfigMap pour ajouter des scrape configs à Prometheus
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-extra-scrape-configs
+  namespace: eat-now
+data:
+  prometheus-extra.yml: |
+    - job_name: 'eat-now-microservices'
+      metrics_path: '/actuator/prometheus'
+      scrape_interval: 15s
+      static_configs:
+        - targets:
+            - 'menu-service:8081'
+            - 'order-service:8082'
+            - 'delivery-service:8083'
+          labels:
+            namespace: 'eat-now'
+            app: 'eat-now-microservices'
+    
+    - job_name: 'menu-service'
+      metrics_path: '/actuator/prometheus'
+      scrape_interval: 15s
+      static_configs:
+        - targets: ['menu-service:8081']
+          labels:
+            service: 'menu-service'
+            namespace: 'eat-now'
+    
+    - job_name: 'order-service'
+      metrics_path: '/actuator/prometheus'
+      scrape_interval: 15s
+      static_configs:
+        - targets: ['order-service:8082']
+          labels:
+            service: 'order-service'
+            namespace: 'eat-now'
+    
+    - job_name: 'delivery-service'
+      metrics_path: '/actuator/prometheus'
+      scrape_interval: 15s
+      static_configs:
+        - targets: ['delivery-service:8083']
+          labels:
+            service: 'delivery-service'
+            namespace: 'eat-now'

@@ -61,6 +61,10 @@ metadata:
   namespace: eat-now
   labels:
     app: order-service
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "8082"
+    prometheus.io/path: "/actuator/prometheus"
 spec:
   type: ClusterIP
   ports:

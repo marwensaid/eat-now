@@ -1,0 +1,54 @@
+---
+# ServiceMonitor pour menu-service
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: menu-service-monitor
+  namespace: eat-now
+  labels:
+    app: menu-service
+    release: prometheus
+spec:
+  selector:
+    matchLabels:
+      app: menu-service
+  endpoints:
+  - port: http
+    path: /actuator/prometheus
+    interval: 30s
+---
+# ServiceMonitor pour order-service
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: order-service-monitor
+  namespace: eat-now
+  labels:
+    app: order-service
+    release: prometheus
+spec:
+  selector:
+    matchLabels:
+      app: order-service
+  endpoints:
+  - port: http
+    path: /actuator/prometheus
+    interval: 30s
+---
+# ServiceMonitor pour delivery-service
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: delivery-service-monitor
+  namespace: eat-now
+  labels:
+    app: delivery-service
+    release: prometheus
+spec:
+  selector:
+    matchLabels:
+      app: delivery-service
+  endpoints:
+  - port: http
+    path: /actuator/prometheus
+    interval: 30s

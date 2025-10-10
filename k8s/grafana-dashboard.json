@@ -1,0 +1,261 @@
+{
+  "dashboard": {
+    "title": "Eat Now - Microservices Monitoring",
+    "tags": ["eat-now", "microservices", "spring-boot"],
+    "timezone": "browser",
+    "schemaVersion": 16,
+    "version": 1,
+    "refresh": "10s",
+    "panels": [
+      {
+        "id": 1,
+        "gridPos": { "x": 0, "y": 0, "w": 12, "h": 8 },
+        "type": "graph",
+        "title": "Requêtes HTTP par seconde (par service)",
+        "targets": [
+          {
+            "expr": "rate(http_server_requests_seconds_count{namespace=\"eat-now\"}[1m])",
+            "legendFormat": "{{service}} - {{uri}} - {{method}}",
+            "refId": "A"
+          }
+        ],
+        "yaxes": [
+          { "format": "reqps", "label": "Requests/sec" },
+          { "format": "short" }
+        ],
+        "legend": {
+          "show": true,
+          "alignAsTable": true,
+          "values": true,
+          "current": true
+        }
+      },
+      {
+        "id": 2,
+        "gridPos": { "x": 12, "y": 0, "w": 12, "h": 8 },
+        "type": "graph",
+        "title": "Taux d'erreurs HTTP (4xx et 5xx)",
+        "targets": [
+          {
+            "expr": "sum(rate(http_server_requests_seconds_count{namespace=\"eat-now\",status=~\"4..|5..\"}[1m])) by (service, status)",
+            "legendFormat": "{{service}} - HTTP {{status}}",
+            "refId": "A"
+          }
+        ],
+        "yaxes": [
+          { "format": "reqps", "label": "Errors/sec" },
+          { "format": "short" }
+        ],
+        "alert": {
+          "conditions": [
+            {
+              "evaluator": { "params": [0.1], "type": "gt" },
+              "query": { "params": ["A", "5m", "now"] }
+            }
+          ]
+        }
+      },
+      {
+        "id": 3,
+        "gridPos": { "x": 0, "y": 8, "w": 12, "h": 8 },
+        "type": "graph",
+        "title": "Temps de réponse moyen (ms)",
+        "targets": [
+          {
+            "expr": "rate(http_server_requests_seconds_sum{namespace=\"eat-now\"}[1m]) / rate(http_server_requests_seconds_count{namespace=\"eat-now\"}[1m]) * 1000",
+            "legendFormat": "{{service}} - {{uri}}",
+            "refId": "A"
+          }
+        ],
+        "yaxes": [
+          { "format": "ms", "label": "Response Time" },
+          { "format": "short" }
+        ]
+      },
+      {
+        "id": 4,
+        "gridPos": { "x": 12, "y": 8, "w": 12, "h": 8 },
+        "type": "stat",
+        "title": "Uptime des services",
+        "targets": [
+          {
+            "expr": "up{job=~\"menu-service|order-service|delivery-service\"}",
+            "legendFormat": "{{job}}",
+            "refId": "A"
+          }
+        ],
+        "options": {
+          "colorMode": "value",
+          "graphMode": "none",
+          "justifyMode": "auto",
+          "orientation": "auto"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "mappings": [
+              { "value": 1, "text": "UP", "color": "green" },
+              { "value": 0, "text": "DOWN", "color": "red" }
+            ],
+            "thresholds": {
+              "steps": [
+                { "value": 0, "color": "red" },
+                { "value": 1, "color": "green" }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": 5,
+        "gridPos": { "x": 0, "y": 16, "w": 8, "h": 8 },
+        "type": "gauge",
+        "title": "Utilisation CPU (%)",
+        "targets": [
+          {
+            "expr": "sum(rate(process_cpu_usage{namespace=\"eat-now\"}[1m])) by (service) * 100",
+            "legendFormat": "{{service}}",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "percent",
+            "min": 0,
+            "max": 100,
+            "thresholds": {
+              "steps": [
+                { "value": 0, "color": "green" },
+                { "value": 70, "color": "yellow" },
+                { "value": 90, "color": "red" }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": 6,
+        "gridPos": { "x": 8, "y": 16, "w": 8, "h": 8 },
+        "type": "gauge",
+        "title": "Utilisation Mémoire (MB)",
+        "targets": [
+          {
+            "expr": "jvm_memory_used_bytes{namespace=\"eat-now\",area=\"heap\"} / 1048576",
+            "legendFormat": "{{service}} - Heap",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "decmbytes",
+            "thresholds": {
+              "steps": [
+                { "value": 0, "color": "green" },
+                { "value": 400, "color": "yellow" },
+                { "value": 800, "color": "red" }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": 7,
+        "gridPos": { "x": 16, "y": 16, "w": 8, "h": 8 },
+        "type": "stat",
+        "title": "Nombre de Pods actifs",
+        "targets": [
+          {
+            "expr": "count(up{job=~\"menu-service|order-service|delivery-service\"} == 1)",
+            "legendFormat": "Pods UP",
+            "refId": "A"
+          }
+        ],
+        "options": {
+          "colorMode": "background",
+          "graphMode": "area"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "thresholds": {
+              "steps": [
+                { "value": 0, "color": "red" },
+                { "value": 3, "color": "yellow" },
+                { "value": 6, "color": "green" }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": 8,
+        "gridPos": { "x": 0, "y": 24, "w": 12, "h": 8 },
+        "type": "graph",
+        "title": "Circuit Breaker - États (Resilience4j)",
+        "targets": [
+          {
+            "expr": "resilience4j_circuitbreaker_state{namespace=\"eat-now\"}",
+            "legendFormat": "{{service}} - {{name}} - {{state}}",
+            "refId": "A"
+          }
+        ],
+        "yaxes": [
+          {
+            "format": "short",
+            "label": "State (0=CLOSED, 1=OPEN, 2=HALF_OPEN)"
+          },
+          { "format": "short" }
+        ]
+      },
+      {
+        "id": 9,
+        "gridPos": { "x": 12, "y": 24, "w": 12, "h": 8 },
+        "type": "graph",
+        "title": "Nombre de retries (Resilience4j)",
+        "targets": [
+          {
+            "expr": "rate(resilience4j_retry_calls_total{namespace=\"eat-now\"}[1m])",
+            "legendFormat": "{{service}} - {{name}} - {{kind}}",
+            "refId": "A"
+          }
+        ],
+        "yaxes": [
+          { "format": "ops", "label": "Retries/sec" },
+          { "format": "short" }
+        ]
+      },
+      {
+        "id": 10,
+        "gridPos": { "x": 0, "y": 32, "w": 24, "h": 8 },
+        "type": "table",
+        "title": "Top 10 endpoints par nombre de requêtes",
+        "targets": [
+          {
+            "expr": "topk(10, sum(rate(http_server_requests_seconds_count{namespace=\"eat-now\"}[5m])) by (service, uri, method))",
+            "format": "table",
+            "instant": true,
+            "refId": "A"
+          }
+        ],
+        "transformations": [
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": { "Time": true },
+              "indexByName": {
+                "service": 0,
+                "method": 1,
+                "uri": 2,
+                "Value": 3
+              },
+              "renameByName": {
+                "service": "Service",
+                "method": "Method",
+                "uri": "URI",
+                "Value": "Requests/sec"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
