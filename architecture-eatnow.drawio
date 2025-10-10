@@ -1,0 +1,129 @@
+<mxfile host="app.diagrams.net" modified="2025-10-10T12:00:00.000Z" agent="Claude Code" version="24.0.0">
+  <diagram name="EatNow Architecture" id="eatnow-architecture">
+    <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- Title -->
+        <mxCell id="title" value="Architecture EatNow - Microservices Cloud-Native" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="400" y="30" width="600" height="40" as="geometry"/>
+        </mxCell>
+
+        <!-- Client -->
+        <mxCell id="client" value="Client" style="shape=actor;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="650" y="100" width="100" height="100" as="geometry"/>
+        </mxCell>
+
+        <!-- Ingress -->
+        <mxCell id="ingress" value="&lt;b&gt;Kubernetes Ingress (NGINX)&lt;/b&gt;&lt;br&gt;&lt;br&gt;eatnow.local&lt;br&gt;/api/menu → menu-service&lt;br&gt;/api/orders → order-service&lt;br&gt;/api/deliveries → delivery-service" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#b0e3e6;strokeColor=#0e8088;fontSize=12;align=center;" vertex="1" parent="1">
+          <mxGeometry x="450" y="260" width="500" height="100" as="geometry"/>
+        </mxCell>
+
+        <!-- Arrow Client to Ingress -->
+        <mxCell id="arrow1" value="HTTP" style="endArrow=classic;html=1;rounded=0;strokeWidth=2;fontSize=12;" edge="1" parent="1" source="client" target="ingress">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="700" y="300" as="sourcePoint"/>
+            <mxPoint x="750" y="250" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Menu Service -->
+        <mxCell id="menu-service" value="&lt;b&gt;🍕 Menu Service&lt;/b&gt;&lt;br&gt;&lt;br&gt;Port: 8081&lt;br&gt;&lt;br&gt;GET/POST/PUT/DELETE /plats&lt;br&gt;&lt;br&gt;Storage: In-Memory&lt;br&gt;Swagger: /swagger-ui.html" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=center;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="200" y="430" width="220" height="180" as="geometry"/>
+        </mxCell>
+
+        <!-- Order Service -->
+        <mxCell id="order-service" value="&lt;b&gt;📦 Order Service&lt;/b&gt;&lt;br&gt;&lt;br&gt;Port: 8082&lt;br&gt;&lt;br&gt;POST/GET /commandes&lt;br&gt;PUT /commandes/{id}/statut&lt;br&gt;&lt;br&gt;Storage: In-Memory&lt;br&gt;Resilience4j: Circuit Breaker + Retry" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;align=center;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="590" y="430" width="220" height="180" as="geometry"/>
+        </mxCell>
+
+        <!-- Delivery Service -->
+        <mxCell id="delivery-service" value="&lt;b&gt;🚚 Delivery Service&lt;/b&gt;&lt;br&gt;&lt;br&gt;Port: 8083&lt;br&gt;&lt;br&gt;POST/GET /livraisons&lt;br&gt;PUT /livraisons/{id}/assigner&lt;br&gt;&lt;br&gt;Storage: In-Memory&lt;br&gt;Swagger: /swagger-ui.html" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;align=center;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="980" y="430" width="220" height="180" as="geometry"/>
+        </mxCell>
+
+        <!-- Arrows Ingress to Services -->
+        <mxCell id="arrow2" style="endArrow=classic;html=1;rounded=0;strokeWidth=2;strokeColor=#82b366;" edge="1" parent="1" source="ingress" target="menu-service">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="500" y="400" as="sourcePoint"/>
+            <mxPoint x="550" y="350" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow3" style="endArrow=classic;html=1;rounded=0;strokeWidth=2;strokeColor=#d79b00;" edge="1" parent="1" source="ingress" target="order-service">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="500" y="400" as="sourcePoint"/>
+            <mxPoint x="550" y="350" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow4" style="endArrow=classic;html=1;rounded=0;strokeWidth=2;strokeColor=#9673a6;" edge="1" parent="1" source="ingress" target="delivery-service">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="500" y="400" as="sourcePoint"/>
+            <mxPoint x="550" y="350" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Inter-service Communication -->
+        <mxCell id="arrow5" value="⚡ Circuit Breaker + Retry (3x)" style="endArrow=classic;startArrow=classic;html=1;rounded=0;strokeWidth=3;strokeColor=#d6b656;fontSize=12;fontStyle=1" edge="1" parent="1" source="order-service" target="menu-service">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="500" y="520" as="sourcePoint"/>
+            <mxPoint x="550" y="470" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- HPA -->
+        <mxCell id="hpa" value="&lt;b&gt;⚖️ HPA (Horizontal Pod Autoscaler)&lt;/b&gt;&lt;br&gt;&lt;br&gt;Min: 1 replica | Max: 5 replicas&lt;br&gt;CPU Target: 50%&lt;br&gt;&lt;br&gt;Appliqué aux 3 microservices" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#b1ddf0;strokeColor=#10739e;fontSize=12;align=center;" vertex="1" parent="1">
+          <mxGeometry x="200" y="670" width="400" height="120" as="geometry"/>
+        </mxCell>
+
+        <!-- Prometheus -->
+        <mxCell id="prometheus" value="&lt;b&gt;📊 Prometheus&lt;/b&gt;&lt;br&gt;&lt;br&gt;Scrape /actuator/prometheus&lt;br&gt;Interval: 15s&lt;br&gt;ServiceMonitor: eatnow-app-monitor" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;" vertex="1" parent="1">
+          <mxGeometry x="680" y="670" width="260" height="120" as="geometry"/>
+        </mxCell>
+
+        <!-- Grafana -->
+        <mxCell id="grafana" value="&lt;b&gt;📈 Grafana Dashboard&lt;/b&gt;&lt;br&gt;&lt;br&gt;• Total HTTP Requests&lt;br&gt;• Error Rate (5xx)&lt;br&gt;• Response Time (p95)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff4e6;strokeColor=#d79b00;fontSize=12;align=center;" vertex="1" parent="1">
+          <mxGeometry x="1000" y="670" width="200" height="120" as="geometry"/>
+        </mxCell>
+
+        <!-- Arrow Prometheus scraping -->
+        <mxCell id="arrow6" value="Scrape metrics" style="endArrow=classic;html=1;rounded=0;strokeWidth=2;strokeColor=#b85450;dashed=1;fontSize=11;" edge="1" parent="1" source="prometheus" target="menu-service">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="680" y="670" as="sourcePoint"/>
+            <mxPoint x="310" y="610" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow7" value="Scrape" style="endArrow=classic;html=1;rounded=0;strokeWidth=2;strokeColor=#b85450;dashed=1;fontSize=11;" edge="1" parent="1" source="prometheus" target="order-service">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="680" y="670" as="sourcePoint"/>
+            <mxPoint x="700" y="610" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow8" value="Scrape" style="endArrow=classic;html=1;rounded=0;strokeWidth=2;strokeColor=#b85450;dashed=1;fontSize=11;" edge="1" parent="1" source="prometheus" target="delivery-service">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="940" y="670" as="sourcePoint"/>
+            <mxPoint x="1090" y="610" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Arrow Grafana to Prometheus -->
+        <mxCell id="arrow9" value="Query" style="endArrow=classic;html=1;rounded=0;strokeWidth=2;strokeColor=#d79b00;fontSize=12;" edge="1" parent="1" source="grafana" target="prometheus">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1000" y="730" as="sourcePoint"/>
+            <mxPoint x="1050" y="680" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Legend Box -->
+        <mxCell id="legend" value="&lt;b&gt;📚 Stack &amp; Features&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Technologies:&lt;/b&gt; Java 17, Spring Boot 3, Maven, Docker, Kubernetes&lt;br&gt;&lt;b&gt;Résilience:&lt;/b&gt; Resilience4j (Circuit Breaker, Retry: 3x 100ms, Fallback)&lt;br&gt;&lt;b&gt;Observabilité:&lt;/b&gt; Micrometer, Actuator, Prometheus, Grafana&lt;br&gt;&lt;b&gt;API Docs:&lt;/b&gt; Swagger/OpenAPI (/swagger-ui.html)&lt;br&gt;&lt;b&gt;Health Checks:&lt;/b&gt; Liveness &amp; Readiness probes&lt;br&gt;&lt;b&gt;Resources:&lt;/b&gt; CPU: 100m-500m | Memory: 256Mi-512Mi" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;align=left;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="200" y="850" width="1000" height="140" as="geometry"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
