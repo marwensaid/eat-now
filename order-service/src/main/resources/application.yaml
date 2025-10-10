@@ -7,7 +7,7 @@ spring:
 
 menu:
   service:
-    url: ${MENU_SERVICE_URL:http://localhost:8081}
+    url: ${MENU_SERVICE_URL:http://menu-service:8081}
 
 management:
   endpoints:

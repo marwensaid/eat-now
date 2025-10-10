@@ -7,7 +7,7 @@ spring:
 
 order:
   service:
-    url: ${ORDER_SERVICE_URL:http://localhost:8082}
+    url: ${ORDER_SERVICE_URL:http://order-service:8082}
 
 management:
   endpoints:
