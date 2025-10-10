@@ -147,3 +147,26 @@ kubectl get service delivery-service
 ```
 
 ---
+
+## 6. Configuration de la Scalabilité et du Monitoring
+
+
+```bash
+# Appliquer le manifeste pour l'autoscaling
+kubectl apply -f deployment/hpa.yaml
+
+# Appliquer le manifeste pour que Prometheus découvre nos services
+kubectl apply -f deployment/monitoring.yaml
+```
+
+#### Vérification
+
+```bash
+# Vérifier que les HPA sont créés (la cible <unknown> au début est normale)
+kubectl get hpa
+
+# Vérifier que le ServiceMonitor est créé
+kubectl get servicemonitor eatnow-app-monitor
+```
+
+---

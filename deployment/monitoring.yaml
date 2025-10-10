@@ -1,0 +1,16 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: eatnow-app-monitor
+  labels:
+    # Ce label est important pour que le Prometheus Operator trouve ce ServiceMonitor
+    release: monitoring
+spec:
+  selector:
+    matchLabels:
+      # Cible tous les services ayant ce label
+      app.kubernetes.io/part-of: eatnow-app
+  endpoints:
+    - port: http
+      path: /actuator/prometheus
+      interval: 15s
