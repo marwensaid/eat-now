@@ -47,3 +47,15 @@ mvn spring-boot:run -pl order-service
 
 *   **API (GET all)**: [http://localhost:8082/commandes](http://localhost:8082/commandes)
 *   **Documentation Swagger UI**: [http://localhost:8082/swagger-ui.html](http://localhost:8082/swagger-ui.html)
+
+### Lancer `delivery-service`
+
+```bash
+# Dans un troisième terminal, à la racine du projet
+mvn spring-boot:run -pl delivery-service
+```
+
+*   **API**: Les endpoints sont accessibles via `http://localhost:8083/livraisons`
+*   **Documentation Swagger UI**: [http://localhost:8083/swagger-ui.html](http://localhost:8083/swagger-ui.html)
+
+---
