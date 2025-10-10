@@ -1,0 +1,34 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: eatnow-ingress
+  annotations:
+    # Indique à l''Ingress Controller (souvent NGINX) de réécrire les chemins
+    # Par exemple, /api/menu/plats -> /plats
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  rules:
+    - host: eatnow.local
+      http:
+        paths:
+          - path: /api/menu(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: menu-service
+                port:
+                  number: 8081
+          - path: /api/orders(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: order-service
+                port:
+                  number: 8082
+          - path: /api/deliveries(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: delivery-service
+                port:
+                  number: 8083

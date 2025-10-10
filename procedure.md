@@ -152,7 +152,7 @@ kubectl get service delivery-service
 
 
 ```bash
-# Appliquer le manifeste pour l'autoscaling
+# Appliquer le manifeste pour l''autoscaling
 kubectl apply -f deployment/hpa.yaml
 
 # Appliquer le manifeste pour que Prometheus découvre nos services
@@ -168,5 +168,57 @@ kubectl get hpa
 # Vérifier que le ServiceMonitor est créé
 kubectl get servicemonitor eatnow-app-monitor
 ```
+
+---
+
+## 7. Accès à l''application et au Monitoring
+
+### a. Déployer le point d''entrée Ingress
+
+Cette commande crée le point d''entrée unique pour tous les services.
+
+```bash
+kubectl apply -f deployment/ingress.yaml
+```
+
+### b. Configurer l''accès local
+
+Pour accéder à l''application via le nom d''hôte `eatnow.local`, vous devez mapper l''adresse IP de votre Ingress Controller à ce nom.
+
+1.  **Trouvez l''IP de votre Ingress Controller**. Pour Minikube, utilisez :
+    ```bash
+    minikube ip
+    ```
+    Pour d''autres environnements (Docker Desktop, etc.), l''IP peut être `localhost` ou trouvée via `kubectl get ingress`.
+
+2.  **Modifiez votre fichier `hosts`**.
+    Ajoutez la ligne suivante à votre fichier `/etc/hosts` (sur Linux/macOS) ou `C:\Windows\System32\drivers\etc\hosts` (sur Windows) :
+    ```
+    <MINIKUBE_IP> eatnow.local
+    ```
+    Remplacez `<MINIKUBE_IP>` par l''IP obtenue à l''étape précédente.
+
+### c. Accéder aux services
+
+Les services sont maintenant accessibles via les URLs suivantes :
+
+*   **Menu Service**: [http://eatnow.local/api/menu/plats](http://eatnow.local/api/menu/plats)
+*   **Order Service**: [http://eatnow.local/api/orders/commandes](http://eatnow.local/api/orders/commandes)
+*   **Delivery Service**: [http://eatnow.local/api/deliveries/livraisons](http://eatnow.local/api/deliveries/livraisons)
+
+### d. Accéder au Dashboard Grafana
+
+1.  **Exposez le service Grafana** en local sur le port 3000. (En supposant que Grafana est déployé dans le namespace `monitoring`).
+    ```bash
+    kubectl port-forward svc/monitoring-grafana 3000:80
+    ```
+
+2.  **Ouvrez Grafana** dans votre navigateur : [http://localhost:3000](http://localhost:3000)
+    *   Les identifiants par défaut sont souvent `admin` / `admin`.
+
+3.  **Importez le dashboard**.
+    *   Allez dans `Dashboards` -> `New` -> `Import`.
+    *   Copiez-collez le contenu du fichier `monitoring/grafana/dashboard.json`.
+    *   Sélectionnez votre source de données Prometheus et cliquez sur `Import`.
 
 ---
