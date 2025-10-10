@@ -18,15 +18,17 @@ public class CommandeService {
 
     private final CommandeRepository commandeRepository;
     private final MenuServiceClient menuServiceClient;
+    private final DeliveryServiceClient deliveryServiceClient; // Ajout
 
-    public CommandeService(CommandeRepository commandeRepository, MenuServiceClient menuServiceClient) {
+    public CommandeService(CommandeRepository commandeRepository, MenuServiceClient menuServiceClient, DeliveryServiceClient deliveryServiceClient) { // Ajout
         this.commandeRepository = commandeRepository;
         this.menuServiceClient = menuServiceClient;
+        this.deliveryServiceClient = deliveryServiceClient; // Ajout
     }
 
     public Commande creerCommande(Map<UUID, Integer> items) {
         if (items == null || items.isEmpty()) {
-            throw new IllegalArgumentException("La liste d'items ne peut pas être vide.");
+            throw new IllegalArgumentException("La liste d''items ne peut pas être vide.");
         }
 
         List<Plat> platsCommandes = new ArrayList<>();
@@ -46,7 +48,12 @@ public class CommandeService {
         }
 
         Commande nouvelleCommande = new Commande(UUID.randomUUID(), platsCommandes, prixTotal, StatutCommande.CREEE);
-        return commandeRepository.save(nouvelleCommande);
+        commandeRepository.save(nouvelleCommande);
+
+        // Appel au service de livraison après la création de la commande
+        deliveryServiceClient.createLivraison(nouvelleCommande.id());
+
+        return nouvelleCommande;
     }
 
     public List<Commande> findAll() {

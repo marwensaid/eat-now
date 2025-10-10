@@ -45,8 +45,8 @@ mvn spring-boot:run -pl menu-service
 mvn spring-boot:run -pl order-service
 ```
 
-*   **API (GET all)**: [http://localhost:8082/commandes](http://localhost:8082/commandes)
-*   **Documentation Swagger UI**: [http://localhost:8082/swagger-ui.html](http://localhost:8082/swagger-ui.html)
+*   **API (GET all)**: [http://localhost:8080/commandes](http://localhost:8082/commandes)
+*   **Documentation Swagger UI**: [http://localhost:8080/swagger-ui.html](http://localhost:8082/swagger-ui.html)
 
 
 ### Lancer `delivery-service`
