@@ -1,26 +1,23 @@
-# Procédure de déploiement de l'application EatNow
+# Guide d'exécution pour EatNow
 
-Ce document décrit les étapes pour compiler, tester, et déployer l'application EatNow.
+Ce document liste les commandes nécessaires pour valider, compiler et exécuter l'application.
 
-## Étape 1 : Configuration du Projet et de Maven
+## 1. Validation de la configuration Maven
 
-### Commandes de vérification
-
-Pour vérifier que le `pom.xml` parent est correctement configuré et qu'il reconnaît ses modules, exécutez la commande suivante à la racine du projet. Elle ne doit produire aucune erreur.
+Cette commande permet de s'assurer que le `pom.xml` parent et ses modules sont correctement déclarés.
 
 ```bash
-# Valide la configuration du POM parent sans construire les sous-modules
+# À exécuter à la racine du projet
 mvn validate
 ```
 
-## Étape 2 : Configuration du microservice `menu-service`
+---
 
-### Commande de compilation
+## 2. Compilation de tous les microservices
 
-À ce stade, le projet complet (parent + `menu-service`) peut être compilé. Cette commande va télécharger les dépendances, compiler le code et lancer les tests (qui sont vides pour l'instant).
+Cette commande compile l'ensemble des microservices (`menu-service`, `order-service`, `delivery-service`), exécute les tests et installe les artefacts JAR dans votre dépôt Maven local.
 
 ```bash
-# Compile l'ensemble des modules et installe les artefacts dans le repository local
+# À exécuter à la racine du projet
 mvn clean install
 ```
-
