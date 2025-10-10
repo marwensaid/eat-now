@@ -29,7 +29,7 @@ spec:
     spec:
       containers:
         - name: menu-service
-          image: eatnow/menu-service:v10
+          image: eatnow/menu-service:v11
           imagePullPolicy: IfNotPresent # Utilise l'image locale si elle existe
           ports:
             - containerPort: 8081
@@ -44,7 +44,7 @@ spec:
             httpGet:
               path: /actuator/health/readiness
               port: 8081
-            initialDelaySeconds: 5
+            initialDelaySeconds: 20
             periodSeconds: 10
           # Ressources pour la stabilité et le scaling
           resources:

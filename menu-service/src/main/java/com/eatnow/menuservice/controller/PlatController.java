@@ -51,8 +51,10 @@ public class PlatController {
     public ResponseEntity<Plat> updatePlat(@PathVariable UUID id, @RequestBody Plat platDetails) {
         return platRepository.findById(id)
                 .map(plat -> {
-                    Plat updatedPlat = new Plat(id, platDetails.nom(), platDetails.description(), platDetails.prix());
-                    return ResponseEntity.ok(platRepository.save(updatedPlat));
+                    plat.setNom(platDetails.getNom());
+                    plat.setDescription(platDetails.getDescription());
+                    plat.setPrix(platDetails.getPrix());
+                    return ResponseEntity.ok(platRepository.save(plat));
                 })
                 .orElse(ResponseEntity.notFound().build());
     }

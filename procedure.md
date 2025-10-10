@@ -45,8 +45,8 @@ mvn spring-boot:run -pl menu-service
 mvn spring-boot:run -pl order-service
 ```
 
-*   **API (GET all)**: [http://localhost:8080/commandes](http://localhost:8082/commandes)
-*   **Documentation Swagger UI**: [http://localhost:8080/swagger-ui.html](http://localhost:8082/swagger-ui.html)
+*   **API (GET all)**: [http://localhost:8082/commandes](http://localhost:8082/commandes)
+*   **Documentation Swagger UI**: [http://localhost:8082/swagger-ui.html](http://localhost:8082/swagger-ui.html)
 
 
 ### Lancer `delivery-service`
@@ -202,9 +202,15 @@ Pour accéder à l''application via le nom d''hôte `eatnow.local`, vous devez m
 
 Les services sont maintenant accessibles via les URLs suivantes :
 
-*   **Menu Service**: [http://eatnow.local/api/menu/plats](http://eatnow.local/api/menu/plats)
-*   **Order Service**: [http://eatnow.local/api/orders/commandes](http://eatnow.local/api/orders/commandes)
-*   **Delivery Service**: [http://eatnow.local/api/deliveries/livraisons](http://eatnow.local/api/deliveries/livraisons)
+Lancer cette commande : 
+
+```bash
+kubectl port-forward --namespace ingress-nginx pod/ingress-nginx-controller-9cc49f96f-ggh47 8080:80
+```
+
+*   **Menu Service**: [http://eatnow.local:8080/api/menu/plats]( http://eatnow.local:8080/api/menu/plats)
+*   **Order Service**: [http://eatnow.local:8080/api/orders/commandes](http://eatnow.local:8080/api/orders/commandes)
+*   **Delivery Service**: [http://eatnow.local:8080/api/deliveries/livraisons](http://eatnow.local:8080/api/deliveries/livraisons)
 
 ### d. Accéder au Dashboard Grafana
 

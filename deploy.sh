@@ -6,7 +6,7 @@ set -e
 
 # --- Configuration ---
 # Changez cette version à chaque nouveau déploiement si vous le souhaitez.
-export VERSION="v10"
+export VERSION="v11"
 
 echo "--- Début du déploiement de la version $VERSION ---"
 
