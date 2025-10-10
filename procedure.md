@@ -21,3 +21,19 @@ Cette commande compile l'ensemble des microservices (`menu-service`, `order-serv
 # À exécuter à la racine du projet
 mvn clean install
 ```
+
+---
+
+## 3. Exécution des microservices (en local)
+
+### Lancer `menu-service`
+
+```bash
+# Se placer à la racine du projet et exécuter la commande
+mvn spring-boot:run -pl menu-service
+```
+
+Une fois le service démarré, vous pouvez y accéder via les URLs suivantes :
+
+*   **API (GET all)**: [http://localhost:8081/plats](http://localhost:8081/plats)
+*   **Documentation Swagger UI**: [http://localhost:8081/swagger-ui.html](http://localhost:8081/swagger-ui.html)
