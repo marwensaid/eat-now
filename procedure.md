@@ -112,4 +112,21 @@ kubectl get pods -l app=menu-service
 kubectl get service menu-service
 ```
 
+### c. Déployer `order-service`
+
+```bash
+# Appliquer le manifeste de déploiement et de service
+kubectl apply -f deployment/order-service-deployment.yaml
+```
+
+#### Vérification
+
+```bash
+# Vérifier que le pod est en cours d'exécution
+kubectl get pods -l app=order-service
+
+# Vérifier que le service est créé
+kubectl get service order-service
+```
+
 ---
