@@ -4,7 +4,6 @@ Sujet : Application de restauration « EatNow »
 Technos : Java 17 – Spring Boot 3 – Kubernetes – Grafana – Prometheus
 
 ⸻
-
 🎯 Objectif général
 
 Vous devez concevoir, développer et déployer une application simplifiée de restauration (type Uber Eats) composée de 3 microservices Spring Boot.
