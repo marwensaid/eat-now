@@ -848,6 +848,8 @@ sudo sed -i '' '/eat-now.local/d' /etc/hosts
 **Anthony Marchiselli**
 
 - LinkedIn: [Anthony Marchiselli](https://www.linkedin.com/in/anthony-marchiselli-4ab83a347/)
+  
+- GitHub: [@antocreadev](https://github.com/Anthony2a) 
 
 **Anthony Menghi**
 
