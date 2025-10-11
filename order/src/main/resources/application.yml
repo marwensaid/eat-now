@@ -1,19 +1,13 @@
 server:
-  port: 9001
+  port: 8082
 spring:
   application:
     name: order
 management:
-  health:
-    probes:
-      enabled: true
   endpoints:
     web:
       exposure:
         include: health,metrics,info,prometheus
-  endpoint:
-    prometheus:
-      enabled: true
-  metrics:
-    tags:
-      application: ${spring.application.name}
+#  health:
+#    probes:
+#      enabled: true

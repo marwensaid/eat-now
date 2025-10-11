@@ -1,4 +1,4 @@
-package fr.eat_now.menu;
+package fr.eatnow.menu;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
