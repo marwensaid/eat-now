@@ -1,4 +1,4 @@
-package fr.eat_now.delivery.Controllers;
+package fr.eatnow.delivery.Controllers;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

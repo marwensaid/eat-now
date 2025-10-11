@@ -1,4 +1,4 @@
-package fr.eat_now.delivery;
+package fr.eatnow.delivery;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

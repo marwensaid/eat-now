@@ -1,4 +1,4 @@
-package fr.eat_now.order.Controllers;
+package fr.eatnow.order.Controllers;
 
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
