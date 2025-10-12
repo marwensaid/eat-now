@@ -1,8 +1,8 @@
-package fr.eatnow.menu.Controllers;
+package fr.eatnow.menu.controllers;
 
-import fr.eatnow.menu.Dtos.CreateDishRequest;
-import fr.eatnow.menu.Models.Dish;
-import fr.eatnow.menu.Services.MenuService;
+import fr.eatnow.menu.dtos.CreateDishRequest;
+import fr.eatnow.menu.models.Dish;
+import fr.eatnow.menu.services.MenuService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/menu")
+@RequestMapping("/api/dishes")
 @Tag(name = "Menu Service", description = "Gestion des plats")
 public class MenuController {
     private final MenuService menuService;

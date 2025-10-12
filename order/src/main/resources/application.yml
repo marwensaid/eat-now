@@ -7,7 +7,44 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,metrics,info,prometheus
-#  health:
-#    probes:
-#      enabled: true
+        include: health,metrics,info,prometheus,circuitbreakers
+  endpoint:
+    health:
+      show-details: always
+    circuitbreakers:
+      enabled: true
+
+resilience4j:
+  retry:
+    instances:
+      menu-service:
+        maxAttempts: 3
+        waitDuration: 500ms
+
+  circuitbreaker:
+    instances:
+      menu-service:
+        registerHealthIndicator: true
+        # 10 appels pour évaluer la santé
+        slidingWindowSize: 10
+        # Minimum 5 appels avant de décider
+        minimumNumberOfCalls: 5
+        # 50% d'erreurs → OPEN
+        failureRateThreshold: 50
+        # Timeout lent → considéré comme échec
+        slowCallDurationThreshold: 2s
+        # Temps avant de retenter (état HALF_OPEN)
+        waitDurationInOpenState: 30s
+        # Appels autorisés en HALF_OPEN
+        permittedNumberOfCallsInHalfOpenState: 3
+        # Si > 50% lent → OPEN
+        slowCallRateThreshold: 50
+
+  timelimiter:
+    instances:
+      menu-service:
+        timeoutDuration: 2s
+
+menu:
+  service:
+    url: http://localhost:8081/api

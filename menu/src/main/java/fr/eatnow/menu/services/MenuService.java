@@ -1,7 +1,7 @@
-package fr.eatnow.menu.Services;
+package fr.eatnow.menu.services;
 
-import fr.eatnow.menu.Dtos.CreateDishRequest;
-import fr.eatnow.menu.Models.Dish;
+import fr.eatnow.menu.dtos.CreateDishRequest;
+import fr.eatnow.menu.models.Dish;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
