@@ -5,7 +5,7 @@ FROM openjdk:17-jdk-slim
 WORKDIR /app
 
 # Copy the built JAR file
-COPY build/libs/order-service-0.0.1-SNAPSHOT.jar app.jar
+COPY build/libs/menu-service-0.0.1-SNAPSHOT.jar app.jar
 
 # Expose port 8081
 EXPOSE 8081

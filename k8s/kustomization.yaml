@@ -1,0 +1,25 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - menu-service-deployment.yaml
+  - menu-service-service.yaml
+  - menu-service-hpa.yaml
+  - delivery-service-deployment.yaml
+  - delivery-service-service.yaml
+  - delivery-service-hpa.yaml
+  - order-service-deployment.yaml
+  - order-service-service.yaml
+  - order-service-hpa.yaml
+  - ingress.yaml
+
+images:
+  - name: menu-service
+    newName: janovp/menu-service
+    newTag: latest
+  - name: delivery-service
+    newName: janovp/delivery-service
+    newTag: latest
+  - name: order-service
+    newName: janovp/order-service
+    newTag: latest

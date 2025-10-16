@@ -6,51 +6,45 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class OrderService {
-    private final Map<String, Order> orders = new ConcurrentHashMap<>();
+    private final Map<String, Order> orders = new HashMap<>();
 
-    public List<Order> getAllOrders() {
-        return new ArrayList<>(orders.values());
-    }
-
-    public List<Order> getOrdersByUserId(String userId) {
-        return orders.values().stream()
-                .filter(order -> order.getUserId().equals(userId))
-                .toList();
-    }
-
-    public Order getOrderById(String id) {
-        return Optional.ofNullable(orders.get(id))
-                .orElseThrow(() -> new RuntimeException("Order not found with id: " + id));
-    }
-
-    public Order createOrder(String userId, List<String> dishIds, Double totalAmount) {
+    public Order createOrder(String userId, List<String> dishIds, double totalAmount) {
         String orderId = UUID.randomUUID().toString();
         Order order = new Order(
-                orderId,
-                userId,
-                dishIds,
-                OrderStatus.CREATED,
-                LocalDateTime.now(),
-                totalAmount
+            orderId,
+            userId,
+            dishIds,
+            OrderStatus.CREATED,
+            LocalDateTime.now(),
+            LocalDateTime.now(),
+            totalAmount
         );
         orders.put(orderId, order);
         return order;
     }
 
+    public Order getOrder(String orderId) {
+        return Optional.ofNullable(orders.get(orderId))
+                .orElseThrow(() -> new RuntimeException("Order not found: " + orderId));
+    }
+
+    public List<Order> getUserOrders(String userId) {
+        return orders.values().stream()
+                .filter(order -> order.getUserId().equals(userId))
+                .toList();
+    }
+
     public Order updateOrderStatus(String orderId, OrderStatus newStatus) {
-        Order order = getOrderById(orderId);
+        Order order = getOrder(orderId);
         order.setStatus(newStatus);
-        orders.put(orderId, order);
+        order.setUpdatedAt(LocalDateTime.now());
         return order;
     }
 
-    public void deleteOrder(String id) {
-        if (orders.remove(id) == null) {
-            throw new RuntimeException("Order not found with id: " + id);
-        }
+    public List<Order> getAllOrders() {
+        return new ArrayList<>(orders.values());
     }
 }

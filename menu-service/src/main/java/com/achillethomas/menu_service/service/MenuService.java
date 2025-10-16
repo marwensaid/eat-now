@@ -17,7 +17,7 @@ public class MenuService {
     private final AtomicLong idGenerator = new AtomicLong(1);
 
     public MenuService() {
-        // Initialize with some sample dishes test
+        // Initialize with some sample dishes
         addDish(new Dish(null, "Burger Classic", "Burger avec steak, salade, tomate", new BigDecimal("12.50"), "Burgers", true));
         addDish(new Dish(null, "Pizza Margherita", "Pizza tomate, mozzarella, basilic", new BigDecimal("10.00"), "Pizzas", true));
         addDish(new Dish(null, "Salade César", "Salade romaine, poulet, parmesan, croûtons", new BigDecimal("9.50"), "Salades", true));

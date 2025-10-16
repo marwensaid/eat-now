@@ -7,12 +7,13 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class OpenApiConfig {
+    
     @Bean
     public OpenAPI orderServiceOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
                         .title("Order Service API")
-                        .description("API for managing orders in the EatNow application")
+                        .description("API for managing customer orders")
                         .version("1.0"));
     }
 }

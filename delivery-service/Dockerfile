@@ -5,10 +5,10 @@ FROM openjdk:17-jdk-slim
 WORKDIR /app
 
 # Copy the built JAR file
-COPY build/libs/order-service-0.0.1-SNAPSHOT.jar app.jar
+COPY build/libs/delivery-service-0.0.1-SNAPSHOT.jar app.jar
 
-# Expose port 8081
-EXPOSE 8081
+# Expose port 8082
+EXPOSE 8082
 
 # Run the application
 ENTRYPOINT ["java", "-jar", "app.jar"]
