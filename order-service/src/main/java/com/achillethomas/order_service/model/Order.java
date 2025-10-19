@@ -11,6 +11,9 @@ public class Order {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private double totalAmount;
+    private String deliveryAddress;
+    private String customerName;
+    private Long deliveryId;
 
     public Order() {
     }
@@ -81,5 +84,29 @@ public class Order {
 
     public void setTotalAmount(double totalAmount) {
         this.totalAmount = totalAmount;
+    }
+
+    public String getDeliveryAddress() {
+        return deliveryAddress;
+    }
+
+    public void setDeliveryAddress(String deliveryAddress) {
+        this.deliveryAddress = deliveryAddress;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    public Long getDeliveryId() {
+        return deliveryId;
+    }
+
+    public void setDeliveryId(Long deliveryId) {
+        this.deliveryId = deliveryId;
     }
 }

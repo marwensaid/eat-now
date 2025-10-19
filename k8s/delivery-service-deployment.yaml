@@ -17,11 +17,16 @@ spec:
       containers:
       - name: delivery-service
         image: janovp/delivery-service:latest
+        imagePullPolicy: IfNotPresent
         ports:
-        - containerPort: 8082
+        - containerPort: 8081
         env:
         - name: SPRING_PROFILES_ACTIVE
           value: "k8s"
+        - name: MANAGEMENT_METRICS_BINDERS_PROCESSOR_ENABLED
+          value: "false"
+        - name: MANAGEMENT_METRICS_BINDERS_JVM_ENABLED
+          value: "false"
         resources:
           requests:
             memory: "256Mi"
@@ -31,16 +36,16 @@ spec:
             cpu: "500m"
         livenessProbe:
           httpGet:
-            path: /actuator/health
-            port: 8082
+            path: /delivery/actuator/health
+            port: 8081
           initialDelaySeconds: 30
           periodSeconds: 10
           timeoutSeconds: 5
           failureThreshold: 3
         readinessProbe:
           httpGet:
-            path: /actuator/health
-            port: 8082
+            path: /delivery/actuator/health
+            port: 8081
           initialDelaySeconds: 5
           periodSeconds: 5
           timeoutSeconds: 3

@@ -1,7 +1,236 @@
-🎓 Examen Pratique – Architecture Microservices & Cloud-Native (4h)
+# 🍽️ EatNow - Application de Restauration Microservices
 
-Sujet : Application de restauration « EatNow »
-Technos : Java 17 – Spring Boot 3 – Kubernetes – Grafana – Prometheus
+[![Java](https://img.shields.io/badge/Java-17-orange.svg)](https://www.oracle.com/java/)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.6-brightgreen.svg)](https://spring.io/projects/spring-boot)
+[![Kubernetes](https://img.shields.io/badge/Kubernetes-1.25+-blue.svg)](https://kubernetes.io/)
+[![Prometheus](https://img.shields.io/badge/Prometheus-2.48-red.svg)](https://prometheus.io/)
+[![Grafana](https://img.shields.io/badge/Grafana-10.2-orange.svg)](https://grafana.com/)
+
+Application de restauration type Uber Eats composée de 3 microservices Spring Boot déployés sur Kubernetes avec monitoring Prometheus/Grafana et résilience Resilience4j.
+
+## ✅ Statut du Déploiement
+
+**Dernière mise à jour** : 2025-10-19  
+**Statut** : 🟢 **OPÉRATIONNEL**
+
+| Service | Pods | Status | Tests |
+|---------|------|--------|-------|
+| menu-service | 2/2 | ✅ Running | ✅ Passed |
+| order-service | 2/2 | ✅ Running | ✅ Passed |
+| delivery-service | 2/2 | ✅ Running | ✅ Passed |
+| prometheus | 1/1 | ✅ Running | ✅ Collecting |
+| grafana | 1/1 | ✅ Running | ✅ Accessible |
+
+**Tests E2E** : ✅ Tous les tests passent (voir `./test-e2e.sh`)  
+**Documentation** : [VERIFICATION.md](VERIFICATION.md)
+
+---
+
+## 🚀 Démarrage rapide
+
+```bash
+# Build et déploiement automatique
+chmod +x build-and-deploy.sh
+./build-and-deploy.sh
+
+# Ou déploiement manuel
+kubectl apply -k k8s/
+```
+
+**📖 Pour le guide complet de déploiement, consultez [DEPLOYMENT.md](DEPLOYMENT.md)**
+
+---
+
+## 📋 Vue d'ensemble
+
+### Architecture
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                         Ingress                              │
+│                    (eatnow.local)                            │
+└────────────┬────────────┬────────────┬──────────────────────┘
+             │            │            │
+    ┌────────▼───┐  ┌────▼─────┐  ┌──▼──────────┐
+    │  Menu      │  │  Order   │  │  Delivery   │
+    │  Service   │◄─┤  Service │─►│  Service    │
+    │  :8080     │  │  :8080   │  │  :8080      │
+    └────────────┘  └──────────┘  └─────────────┘
+         │               │              │
+         └───────────────┴──────────────┘
+                         │
+                    ┌────▼─────┐
+                    │Prometheus│
+                    │  :9090   │
+                    └────┬─────┘
+                         │
+                    ┌────▼─────┐
+                    │ Grafana  │
+                    │  :3000   │
+                    └──────────┘
+```
+
+### Microservices
+
+| Service | Description | Port | Endpoints |
+|---------|-------------|------|-----------|
+| **menu-service** | Gestion du catalogue des plats | 8080 | `/menu/api/menu/*` |
+| **order-service** | Gestion des commandes | 8080 | `/order/api/orders/*` |
+| **delivery-service** | Gestion des livraisons | 8080 | `/delivery/api/deliveries/*` |
+
+### Fonctionnalités clés
+
+✅ **Communication inter-services** : REST avec validation des plats et création automatique de livraison  
+✅ **Résilience** : Circuit Breaker, Retry (3x), Timeout (2s) via Resilience4j  
+✅ **Monitoring** : Prometheus + Grafana avec dashboard pré-configuré  
+✅ **Auto-scaling** : HPA basé sur CPU (50%)  
+✅ **Documentation** : Swagger/OpenAPI sur chaque service  
+✅ **Observabilité** : Métriques Prometheus via Actuator  
+
+---
+
+## 📚 Documentation
+
+- **[DEPLOYMENT.md](DEPLOYMENT.md)** - Guide complet de déploiement et tests
+- **[IMPLEMENTATION_SUMMARY.md](IMPLEMENTATION_SUMMARY.md)** - Résumé de l'implémentation
+- **[TODO.md](TODO.md)** - Liste des tâches (toutes complétées ✅)
+
+---
+
+## 🔧 Technologies utilisées
+
+### Backend
+- **Java 17** - Langage de programmation
+- **Spring Boot 3.5.6** - Framework applicatif
+- **Gradle 8.x** - Gestion des dépendances
+- **Resilience4j** - Patterns de résilience
+- **Micrometer** - Métriques applicatives
+- **SpringDoc OpenAPI** - Documentation API
+
+### Infrastructure
+- **Docker** - Containerisation
+- **Kubernetes** - Orchestration
+- **Prometheus** - Collecte de métriques
+- **Grafana** - Visualisation
+- **Ingress NGINX** - Routage HTTP
+
+---
+
+## 🌐 Accès aux services
+
+### Via Ingress (après configuration de /etc/hosts)
+
+```bash
+echo "$(minikube ip) eatnow.local" | sudo tee -a /etc/hosts
+```
+
+| Service | URL |
+|---------|-----|
+| Menu API | http://eatnow.local/menu/api/menu/dishes |
+| Menu Swagger | http://eatnow.local/menu/swagger-ui.html |
+| Order API | http://eatnow.local/order/api/orders |
+| Order Swagger | http://eatnow.local/order/swagger-ui.html |
+| Delivery API | http://eatnow.local/delivery/api/deliveries |
+| Delivery Swagger | http://eatnow.local/delivery/swagger-ui.html |
+
+### Monitoring
+
+| Service | URL | Credentials |
+|---------|-----|-------------|
+| Prometheus | http://$(minikube ip):30090 | - |
+| Grafana | http://$(minikube ip):30300 | admin/admin |
+
+---
+
+## ✅ Tests rapides
+
+### 1. Créer une commande
+
+```bash
+curl -X POST http://eatnow.local/order/api/orders \
+  -H "Content-Type: application/json" \
+  -d '{
+    "userId": "user123",
+    "dishIds": ["1", "2"],
+    "totalAmount": 25.50,
+    "deliveryAddress": "123 Rue de Paris, 75001 Paris",
+    "customerName": "Jean Dupont"
+  }'
+```
+
+### 2. Vérifier la livraison créée automatiquement
+
+```bash
+curl http://eatnow.local/delivery/api/deliveries
+```
+
+### 3. Tester le Circuit Breaker
+
+```bash
+# Arrêter le menu-service
+kubectl scale deployment menu-service --replicas=0
+
+# Tenter de créer une commande (fallback activé)
+curl -X POST http://eatnow.local/order/api/orders ...
+
+# Redémarrer
+kubectl scale deployment menu-service --replicas=2
+```
+
+---
+
+## 📊 Monitoring
+
+Le dashboard Grafana "EatNow Microservices Dashboard" affiche :
+
+- **HTTP Requests Rate** : Taux de requêtes/s
+- **HTTP Error Rate** : Pourcentage d'erreurs 5xx
+- **Average Response Time** : Temps de réponse moyen
+- **Circuit Breaker State** : État des circuit breakers
+- **Total Requests** : Par service
+
+---
+
+## 🛠️ Développement
+
+### Build local
+
+```bash
+cd menu-service
+./gradlew clean build
+```
+
+### Tests
+
+```bash
+./gradlew test
+```
+
+### Logs
+
+```bash
+kubectl logs -f -l app=order-service
+```
+
+---
+
+## 📝 Licence
+
+MIT License
+
+---
+
+## 👥 Auteurs
+
+EatNow Team - Projet d'examen Architecture Microservices & Cloud-Native
+
+---
+
+**📖 Pour plus de détails, consultez [DEPLOYMENT.md](DEPLOYMENT.md)**
+
+---
+
+## 🎓 Contexte académique - Examen Pratique
 
 ⸻
 

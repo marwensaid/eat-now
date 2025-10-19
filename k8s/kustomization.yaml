@@ -8,13 +8,16 @@ resources:
   - delivery-service-deployment.yaml
   - delivery-service-service.yaml
   - delivery-service-hpa.yaml
-<<<<<<< HEAD
   - order-service-deployment.yaml
   - order-service-service.yaml
   - order-service-hpa.yaml
-=======
->>>>>>> origin/achille
   - ingress.yaml
+  - prometheus-configmap.yaml
+  - prometheus-deployment.yaml
+  - prometheus-service.yaml
+  - grafana-configmap.yaml
+  - grafana-deployment.yaml
+  - grafana-service.yaml
 
 images:
   - name: menu-service
@@ -23,9 +26,6 @@ images:
   - name: delivery-service
     newName: janovp/delivery-service
     newTag: latest
-<<<<<<< HEAD
   - name: order-service
     newName: janovp/order-service
     newTag: latest
-=======
->>>>>>> origin/achille

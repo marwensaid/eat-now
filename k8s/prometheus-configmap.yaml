@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-config
+  labels:
+    app: prometheus
+data:
+  prometheus.yml: |
+    global:
+      scrape_interval: 15s
+      evaluation_interval: 15s
+      external_labels:
+        cluster: 'eatnow-cluster'
+        replica: 'prometheus-1'
+
+    scrape_configs:
+      # Scraping du menu-service
+      - job_name: 'menu-service'
+        metrics_path: '/menu/actuator/prometheus'
+        static_configs:
+          - targets: ['menu-service:8080']
+            labels:
+              service: 'menu-service'
+              environment: 'production'
+
+      # Scraping du order-service
+      - job_name: 'order-service'
+        metrics_path: '/order/actuator/prometheus'
+        static_configs:
+          - targets: ['order-service:8080']
+            labels:
+              service: 'order-service'
+              environment: 'production'
+
+      # Scraping du delivery-service
+      - job_name: 'delivery-service'
+        metrics_path: '/delivery/actuator/prometheus'
+        static_configs:
+          - targets: ['delivery-service:8080']
+            labels:
+              service: 'delivery-service'
+              environment: 'production'
+
+      # Scraping de Prometheus lui-même
+      - job_name: 'prometheus'
+        static_configs:
+          - targets: ['localhost:9090']

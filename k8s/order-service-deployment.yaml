@@ -17,8 +17,9 @@ spec:
       containers:
       - name: order-service
         image: janovp/order-service:latest
+        imagePullPolicy: IfNotPresent
         ports:
-        - containerPort: 8083
+        - containerPort: 8081
         env:
         - name: SPRING_PROFILES_ACTIVE
           value: "k8s"
@@ -31,16 +32,16 @@ spec:
             cpu: "500m"
         livenessProbe:
           httpGet:
-            path: /actuator/health
-            port: 8083
+            path: /order/actuator/health
+            port: 8081
           initialDelaySeconds: 30
           periodSeconds: 10
           timeoutSeconds: 5
           failureThreshold: 3
         readinessProbe:
           httpGet:
-            path: /actuator/health
-            port: 8083
+            path: /order/actuator/health
+            port: 8081
           initialDelaySeconds: 5
           periodSeconds: 5
           timeoutSeconds: 3
